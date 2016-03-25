@@ -12,10 +12,13 @@ A simple, easy to use ArcGIS Script Tool or Python script to zip up a single sha
 **Toolbox with created with ArcGIS 10.3.1**  
 If you are running an older version of ArcGIS you might need to add your own script tools and point them to the scripts from step 3 and 4 above.
 
-**Setup for "Zip Shapefile" and "Zip Directory" script tools**
+**ArcGIS Script Tool Setup for "Zip Shapefile" and "Zip Directory of Shapefiles"**
+
+**Zip Shapefile**
+
 ![Zip Shapefile Script Tool](https://raw.githubusercontent.com/igrasshoff/zip-shapefiles/master/images/ScriptTool_ZipShapefile.png)
 
-- Zip Shapefile Parameters
+- Parameters
   - Input Shapefile
     - Date Type: Shapefile
 	- Type: Required
@@ -34,9 +37,11 @@ If you are running an older version of ArcGIS you might need to add your own scr
 	- Type: Derived
 	- Direction: Output
 	
+**Zip Directory of Shapefiles**
+
 ![Zip Shapefile Directory Script Tool](https://raw.githubusercontent.com/igrasshoff/zip-shapefiles/master/images/ScriptTool_ZipShapefileDir.png)
 
-- Zip Directory of Shapefile Parameters
+- Parameters
   - Input Directory
     - Date Type: Folder
 	- Type: Required
