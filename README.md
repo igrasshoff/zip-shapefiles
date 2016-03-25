@@ -32,7 +32,7 @@ This is the bulk of the tool logic.  It runs some basic file existence and file 
 
 ##USAGE
 
-**For complete usage examples please see example_usage.py**
+For complete usage examples please **see example_usage.py**
 
 ```python
 import zipper
