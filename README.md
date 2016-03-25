@@ -1,13 +1,37 @@
 ##PURPOSE
 
-Simple, easy to use ArcGIS Script Tool or Python script to zip up a shapefile.  I found myself zipping shapefiles to upload to ArcGIS online quite regularly...this tool makes it a snap.  Also, I added arcpy as an optional import so the zipper.ShapefileZipper() class should work without arcpy (i.e. on a machine without ArcGIS).
+A simple, easy to use ArcGIS Script Tool or Python script to zip up a single shapefile or entire directory of shapefiles.  I found myself zipping shapefiles for upload to ArcGIS online quite regularly...this tool makes it a snap.  Also, I added arcpy as an optional import so the zipper.ShapefileZipper() class should work without arcpy (i.e. on a machine without ArcGIS).
 
 ##ARCGIS TOOLBOX SETUP
 
-1.  Unzip the File - you are reading this so you probably unzipped :)
+1.  Unzip
 2.  Navigate to your Unzip location and Open up the Toolbox.tbx file using ArcGIS Desktop
 3.  Modify the source property for the "Zip Shapefile" Script Tool -> Point it to the location of "ScriptToolZipSingleShapefile.py"
 4.  Modify the source property for the "Zip Directory of Shapefiles" Script Tool -> Point it to the location of "ScriptToolZipDirShapefiles.py"
+
+**Toolbox with created with ArcGIS 10.3.1**  
+If you are running an older version of ArcGIS you might need to add your own script tools and point them to the scripts from step 3 and 4 above.
+
+Here is the default setup for "Zip Shapefile" and "Zip Directory" script tools
+- Zip Shapefile Parameters
+  ![Zip Shapefile Script Tool](https://raw.githubusercontent.com/igrasshoff/zip-shapefiles/master/images/ScriptTool_ZipShapefile.png)
+  - Input Shapefile
+    - Date Type: Shapefile
+	- Type: Required
+	- Direction: Input
+  - Output Zip File
+    - Date Type: String
+	- Type: Optional
+	- Direction: Input
+  - Zip File Mode (w = write new and a = append to existing)
+    - Date Type: String
+	- Type: Required
+	- Direction: Input
+	- Default: w
+  - Result
+    - Date Type: File
+	- Type: Derived
+	- Direction: Output
 
 
 ##FILES INCLUDED
