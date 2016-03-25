@@ -17,7 +17,7 @@ class ShapefileZipper:
         except:
             self.__arcpy = None
 
-    def zip_shapefile_directory(self, input_directory, output_zipfile, zip_file_mode):
+    def zip_shapefile_directory(self, input_directory='', output_zipfile='', zip_file_mode='w'):
         try:
             self.__zipping_shapefile_dir = True # we are zipping a dir, this controls the file_mode
             self.__check_zip_mode(zip_file_mode)
@@ -27,19 +27,22 @@ class ShapefileZipper:
                 for shapefile in shapefiles:
                     shapefile_full_path = os.path.join(input_directory, '') + shapefile
                     result = self.zip_shapefile(shapefile_full_path, output_zipfile, self.__zip_file_mode)
-                    zip_files.append(result)
-                if len(output_zipfile) > 0:
-                    return zip_files[0]
-                else:
+                    # only append new results
+                    if result not in zip_files:
+                        zip_files.append(result)
+
+                # Check the output before returning...
+                if len(zip_files) > 0:
                     return zip_files
+                else:
+                    self.__raise_execption("INVALID INPUT DIRECTORY, UNABLE TO PROCESS")
+
             else:
-                msg = "INVALID INPUT DIRECTORY, UNABLE TO PROCESS"
-                self.__show_error_message(msg)
-                raise Exception(msg)
+                self.__raise_execption("INVALID INPUT DIRECTORY, UNABLE TO PROCESS")
         except Exception:
             raise
 
-    def zip_shapefile(self, shapefile_path_ending_in_shp, output_zipfile, zip_file_mode):
+    def zip_shapefile(self, shapefile_path_ending_in_shp='', output_zipfile='', zip_file_mode='w'):
         try:
             msg = "User Inputs\n==============\nShapefile: " + shapefile_path_ending_in_shp + "\nOutput Zip: " \
                   + output_zipfile + "\nZip File Mode: " + zip_file_mode
@@ -58,17 +61,16 @@ class ShapefileZipper:
                         for file in files_to_zip:
                             myZip.write(file, os.path.basename(file))
                 else:
-                    raise Exception
+                    self.__raise_execption()
 
                 # Final check to see if file was written..
                 if os.path.isfile(zip_file):
                     return zip_file
                 else:
-                    raise Exception("FAILED TO CREATE ZIP")
+                    self.__raise_execption("FAILED TO CREATE ZIP")
 
             else:
-                self.__show_error_message("Input Shapefile: " + shapefile + ", is not valid..")
-                raise Exception("INPUT SHAPEFILE MISSING")
+                self.__raise_execption("INPUT SHAPEFILE MISSING/INVLAID: " + shapefile + ", is not valid..")
 
         except Exception:
             msg = self.__create_exeception_msg()
@@ -83,7 +85,7 @@ class ShapefileZipper:
                     results.append(file)
             return results
         except:
-            raise Exception("FAILED TO LIST SHAPEFILES")
+            self.__raise_execption("FAILED TO LIST SHAPEFILES")
 
     def __check_zip_mode(self, zip_file_mode):
         try:
@@ -94,12 +96,12 @@ class ShapefileZipper:
                 else:
                     raise
         except:
-            raise Exception("INVALID ZIP FILE MODE: must be either 'w' or 'a'")
+            self.__raise_execption("INVALID ZIP FILE MODE: must be either 'w' or 'a'")
 
     def __config_zipfile(self, zipfile, input_shapefile):
         try:
             # check to see if zip file name/path was provided
-            if len(zipfile) > 0:
+            if len(zipfile) > 1:
                 self.__check_zipfile(zipfile)
                 self.__output_zip_specified = True
                 return zipfile
@@ -111,7 +113,7 @@ class ShapefileZipper:
                 self.__check_zipfile(zipfile)
                 return zipfile
         except:
-            raise Exception
+            self.__raise_execption()
 
     def __check_zipfile(self, zipfile):
         try:
@@ -124,7 +126,7 @@ class ShapefileZipper:
                 try:
                     os.remove(zipfile)
                 except:
-                    raise Exception("UNABLE TO DELETE EXISTING ZIP")
+                    self.__raise_execption("UNABLE TO DELETE EXISTING ZIP")
             if os.path.isfile(zipfile) and self.__zip_file_mode == 'w' and self.__output_zip_specified:
                 # for zipping a dir, we need to switch to append mode
                 if self.__zipping_shapefile_dir and self.__output_zip_specified:
@@ -134,9 +136,9 @@ class ShapefileZipper:
                     try:
                         os.remove(zipfile)
                     except:
-                        raise Exception("UNABLE TO DELETE EXISTING ZIP")
+                        self.__raise_execption("UNABLE TO DELETE EXISTING ZIP")
         except:
-            raise Exception
+            self.__raise_execption()
 
     def __validate_file_extension(self, input_file, extension=".shp"):
         in_file = str(input_file)
@@ -156,7 +158,7 @@ class ShapefileZipper:
         except:
             msg = self.__create_exeception_msg()
             self.__show_error_message(msg)
-            raise Exception("FAILED TO BUILD FILE LIST")
+            self.__raise_execption("FAILED TO BUILD FILE LIST")
 
     def __match_file_name(self, file_name1, file_name2):
         try:
@@ -167,7 +169,7 @@ class ShapefileZipper:
             else:
                 return False
         except:
-            raise Exception("FAILED TO MATCH FILE NAMES")
+            self.__raise_execption("FAILED TO MATCH FILE NAMES")
 
     def __show_info_message(self, msg):
         try:
@@ -176,7 +178,7 @@ class ShapefileZipper:
             else:
                 print("INFO: " + msg)
         except:
-            raise Exception("UNABLE TO CREATE INFO MESSAGE")
+            self.__raise_execption("UNABLE TO CREATE INFO MESSAGE")
 
     def __show_error_message(self, msg):
         try:
@@ -185,7 +187,7 @@ class ShapefileZipper:
             else:
                 print("ERROR: " + msg)
         except:
-            raise Exception("UNABLE TO CREATE ERROR MESSAGE")
+            self.__raise_execption("UNABLE TO CREATE ERROR MESSAGE")
 
     def __show_warning_message(self, msg):
         try:
@@ -194,7 +196,7 @@ class ShapefileZipper:
             else:
                 print("WARNING: " + msg)
         except:
-            raise Exception("UNABLE TO CREATE WARNING MESSAGE")
+            self.__raise_execption("UNABLE TO CREATE WARNING MESSAGE")
 
     def __create_exeception_msg(self):
         try:
@@ -205,3 +207,7 @@ class ShapefileZipper:
             return message
         except:
             raise
+
+    def __raise_execption(self, msg=''):
+        self.__show_error_message(msg)
+        raise Exception(msg)

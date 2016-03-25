@@ -1,8 +1,8 @@
-Purpose
+PURPOSE
 ========
 Simple, easy to use ArcGIS Script Tool or Python script to zip up a shapefile.  I found myself zipping shapefiles to upload to ArcGIS online quite regularly...this tool makes it a snap.  Also, I added arcpy as an optional import so the zipper.ShapefileZipper() class should work without arcpy (i.e. on a machine without ArcGIS).
 
-Installation
+ARCGIS TOOLBOX SETUP
 =============
 1.  Unzip the File - you are reading this so you probably unzipped :)
 2.  Navigate to your Unzip location and Open up the Toolbox.tbx file using ArcGIS Desktop
@@ -10,8 +10,12 @@ Installation
 4. Modify the source property for the "Zip Directory of Shapefiles" Script Tool -> Point it to the location of "ScriptToolZipDirShapefiles.py"
 
 
-Files Included
-===============
+FILES INCLUDED
+==============
+
+example_usage.py
+----------------
+Example use cases of the zipper module.
 
 ScriptToolZipSingleShapefile.py
 --------------------------------
@@ -32,7 +36,21 @@ zipper.py
 -----------
 This is the bulk of the tool logic.  It runs some basic file existence and file extension checks, then will zip up a shapefiles based on user inputs.
 
-License
+USAGE
+=======
+
+* For complete usage examples please see example_usage.py
+
+import zipper
+
+shape_zipper = zipper.ShapefileZipper() # Create Instance of class
+
+# Zips All Shapefiles in directory, each shapefile will get zipped into a shapefilename.zip
+result_dir = shape_zipper.zip_shapfile_directory("C:\\Temp")
+
+result_single = shape_zipper.zip_shapefile("C:\\Temp\\test.shp")
+
+LICENSE
 ==========
 
 MIT License
