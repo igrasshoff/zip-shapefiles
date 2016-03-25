@@ -34,15 +34,10 @@ This is the bulk of the tool logic.  It runs some basic file existence and file 
 
 **For complete usage examples please see example_usage.py**
 
-'''
-import zipper
-
+'''import zipper
 shape_zipper = zipper.ShapefileZipper() # Create Instance of class
-
-# Zips All Shapefiles in directory, each shapefile will get zipped into a shapefilename.zip
-result_dir = shape_zipper.zip_shapfile_directory("C:\\Temp")
-
-result_single = shape_zipper.zip_shapefile("C:\\Temp\\test.shp")
+result_dir = shape_zipper.zip_shapfile_directory("C:\\Temp")  # Zips All Shapefiles found in C:\\TEMP
+result_single = shape_zipper.zip_shapefile("C:\\Temp\\test.shp")  # Zips Single Shapefile C:\\Temp\\test.shp to C:\\Temp\\test.zip
 '''
 
 ##LICENSE
