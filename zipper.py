@@ -42,21 +42,21 @@ class ShapefileZipper:
         except Exception:
             raise
 
-    def zip_shapefile(self, shapefile_path_ending_in_shp='', output_zipfile='', zip_file_mode='w'):
+    def zip_shapefile(self, input_shapefile='', output_zipfile='', zip_file_mode='w'):
         try:
-            msg = "User Inputs\n==============\nShapefile: " + shapefile_path_ending_in_shp + "\nOutput Zip: " \
+            msg = "User Inputs\n==============\nShapefile: " + input_shapefile + "\nOutput Zip: " \
                   + output_zipfile + "\nZip File Mode: " + zip_file_mode
             self.__show_info_message(msg)
             self.__check_zip_mode(zip_file_mode)
-            shapefile = shapefile_path_ending_in_shp
+            sf = input_shapefile
             # check if the input file exists before we start
-            if os.path.isfile(shapefile):
-                shapefile_name = os.path.basename(shapefile)
-                zip_file = self.__config_zipfile(output_zipfile, shapefile)
-                shapefile_valid_ext = self.__validate_file_extension(shapefile, ".shp")
-                root_path = os.path.dirname(shapefile)
-                if shapefile_valid_ext:
-                    files_to_zip = self.__build_file_list(root_path, shapefile_name)
+            if os.path.isfile(sf):
+                sf_name = os.path.basename(sf)
+                zip_file = self.__config_zipfile(output_zipfile, sf)
+                sf_valid_ext = self.__validate_file_extension(sf, ".shp")
+                root_path = os.path.dirname(sf)
+                if sf_valid_ext:
+                    files_to_zip = self.__build_file_list(root_path, sf_name)
                     with zipfile.ZipFile(zip_file, self.__zip_file_mode, zipfile.ZIP_DEFLATED) as myZip:
                         for file in files_to_zip:
                             myZip.write(file, os.path.basename(file))
@@ -70,7 +70,7 @@ class ShapefileZipper:
                     self.__raise_execption("FAILED TO CREATE ZIP")
 
             else:
-                self.__raise_execption("INPUT SHAPEFILE MISSING/INVLAID: " + shapefile + ", is not valid..")
+                self.__raise_execption("INPUT SHAPEFILE MISSING/INVLAID: " + sf + ", is not valid..")
 
         except Exception:
             msg = self.__create_exeception_msg()
